@@ -23,7 +23,7 @@
 | Unsigned integer arithmetic | ✅ |
 | `switch` statement | ✅ |
 | `min` , `max` builtins | ✅ |
-| Pointers | ⬜ |
+| Pointers | ✅ |
 | Interfaces | ⬜ |
 | Methods | ⬜ |
 | Goroutines `go` | ⬜ |
