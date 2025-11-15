@@ -2,7 +2,6 @@ package internal
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/emicklei/dot"
 )
@@ -77,5 +76,5 @@ func (g *graphBuilder) dotify() {
 	d := dot.NewGraph(dot.Directed)
 	visited := map[int]dot.Node{}
 	g.head.Traverse(d, visited)
-	os.WriteFile(g.dotFilename(), []byte(d.String()), 0644)
+	GetFileIO().WriteFile(g.dotFilename(), []byte(d.String()), 0644)
 }

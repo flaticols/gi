@@ -1,0 +1,7 @@
+# WASM build artifacts
+*.wasm
+wasm_exec.js
+
+# Go build artifacts
+*.test
+*.out
