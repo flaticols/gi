@@ -8,14 +8,13 @@ import (
 	"syscall/js"
 
 	"github.com/emicklei/gi"
-	"github.com/emicklei/gi/internal"
 )
 
 func main() {
-	// Set up WASM-compatible I/O handlers
-	internal.SetErrorHandler(internal.NewPanicErrorHandler())
-	memFS := internal.NewMemFileIO()
-	internal.SetFileIO(memFS)
+	// Set up WASM-compatible I/O handlers using the public API
+	gi.SetErrorHandler(gi.NewPanicErrorHandler())
+	memFS := gi.NewMemFileIO()
+	gi.SetFileIO(memFS)
 
 	// Create a channel to keep the Go program running
 	done := make(chan struct{})

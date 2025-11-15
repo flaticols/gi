@@ -63,17 +63,17 @@ Browser
 To make files available to the interpreted Go code:
 
 ```go
-memFS := internal.NewMemFileIO()
+memFS := gi.NewMemFileIO()
 memFS.AddFile("config.json", []byte(`{"setting": "value"}`))
-internal.SetFileIO(memFS)
+gi.SetFileIO(memFS)
 ```
 
 ### Custom Error Handling
 
 ```go
-customHandler := internal.NewPanicErrorHandler()
+customHandler := gi.NewPanicErrorHandler()
 customHandler.Stderr = customWriter // your custom writer
-internal.SetErrorHandler(customHandler)
+gi.SetErrorHandler(customHandler)
 ```
 
 ## Troubleshooting

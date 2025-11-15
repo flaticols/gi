@@ -32,16 +32,16 @@ Before running the interpreter in WASM, configure the appropriate handlers:
 
 ```go
 import (
-    "github.com/emicklei/gi/internal"
+    "github.com/emicklei/gi"
 )
 
 func main() {
     // Use panic instead of os.Exit for WASM
-    internal.SetErrorHandler(internal.NewPanicErrorHandler())
+    gi.SetErrorHandler(gi.NewPanicErrorHandler())
     
     // Use in-memory file system
-    memFS := internal.NewMemFileIO()
-    internal.SetFileIO(memFS)
+    memFS := gi.NewMemFileIO()
+    gi.SetFileIO(memFS)
     
     // Your WASM code here...
 }
@@ -93,13 +93,13 @@ python3 -m http.server 8080
 If you need to provide files to the interpreter in WASM:
 
 ```go
-memFS := internal.NewMemFileIO()
+memFS := gi.NewMemFileIO()
 
 // Add files to the in-memory filesystem
 memFS.AddFile("config.json", []byte(`{"key": "value"}`))
 memFS.AddFile("data.txt", []byte("Hello, World!"))
 
-internal.SetFileIO(memFS)
+gi.SetFileIO(memFS)
 ```
 
 ### Custom Error Handling
@@ -118,7 +118,7 @@ func (h *CustomErrorHandler) HandleFatalError(err error, frames []string) {
     // Handle error as needed for your environment
 }
 
-internal.SetErrorHandler(&CustomErrorHandler{
+gi.SetErrorHandler(&CustomErrorHandler{
     OnError: func(err error, frames []string) {
         // Log to JavaScript console, send to analytics, etc.
     },
