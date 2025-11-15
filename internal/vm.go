@@ -3,7 +3,6 @@ package internal
 import (
 	"bytes"
 	"fmt"
-	"os"
 	"reflect"
 	"sync"
 
@@ -112,13 +111,13 @@ func (vm *VM) popFrame() {
 	framePool.Put(frame)
 }
 func (vm *VM) fatal(err any) {
-	fmt.Fprintln(os.Stderr, "[gi] fatal error:", err)
-	fmt.Fprintln(os.Stderr, "")
-	// dump the callstack
+	// Collect frames for error handler
+	frames := make([]string, 0, len(vm.callStack))
 	for i := len(vm.callStack) - 1; i >= 0; i-- {
 		frame := vm.callStack[i]
-		fmt.Fprintln(os.Stderr, "[gi]", frame)
+		frames = append(frames, fmt.Sprint(frame))
 	}
+	
 	s := structexplorer.NewService("vm", vm)
 	for i, each := range vm.callStack {
 		s.Explore(fmt.Sprintf("vm.callStack.%d", i), each, structexplorer.Column(0))
@@ -130,7 +129,15 @@ func (vm *VM) fatal(err any) {
 	if trace {
 		panic(err)
 	}
-	os.Exit(1)
+	
+	// Use the error handler abstraction
+	var fatalErr error
+	if e, ok := err.(error); ok {
+		fatalErr = e
+	} else {
+		fatalErr = fmt.Errorf("%v", err)
+	}
+	GetErrorHandler().HandleFatalError(fatalErr, frames)
 }
 
 func (vm *VM) traceEval(e Evaluable) {

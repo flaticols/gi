@@ -42,4 +42,16 @@ func main() {
 }
 ```
 
+## WebAssembly Support
+
+The `gi` interpreter can be compiled to WebAssembly to run Go code in web browsers. See the [WASM documentation](docs/WASM.md) and [example](examples/wasm) for details.
+
+Quick start:
+```bash
+cd examples/wasm
+./build.sh
+python3 -m http.server 8080
+# Open http://localhost:8080 in your browser
+```
+
 &copy; 2025. https://ernestmicklei.com . MIT License

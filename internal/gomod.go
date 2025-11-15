@@ -2,13 +2,12 @@ package internal
 
 import (
 	"fmt"
-	"os"
 
 	"golang.org/x/mod/modfile"
 )
 
 func LoadGoMod(filename string) (*modfile.File, error) {
-	data, err := os.ReadFile(filename)
+	data, err := GetFileIO().ReadFile(filename)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read %s: %w", filename, err)
 	}
